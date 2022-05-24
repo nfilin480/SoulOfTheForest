@@ -6,6 +6,8 @@ public class player : MonoBehaviour
 {
     public float speed = 5f;
     public Animator animator;
+
+    public Animation anim;
     private Rigidbody2D rb;
     private Vector2 direction;
 
@@ -30,15 +32,29 @@ public class player : MonoBehaviour
         
         //animator.SetFloat("Vertical", direction.y);
         //animator.SetFloat("Speed", direction.sqrMagnitude);
+        //if(direction.x < 0){
+        //    transform.localScale = new Vector3(-1, 1, 1);
+        //    animator.SetBool("isRunningRight", true);
+        //}
+        //    else if(direction.x > 0){
+        //        transform.localScale = new Vector3(1, 1, 1);
+        //        animator.SetBool("isRunningRight", true);
+        //    } else animator.SetBool("isRunningRight", false);
 
-        if(direction.x < 0 | (transform.localScale.x < 0 & direction.y != 0)){
+        if (direction.x < 0){
             transform.localScale = new Vector3(-1, 1, 1);
             animator.SetBool("isRunningRight", true);
         }
-            else if(direction.x > 0 | (transform.localScale.x > 0 & direction.y != 0)){
+            else if(direction.x > 0){
                 transform.localScale = new Vector3(1, 1, 1);
                 animator.SetBool("isRunningRight", true);
-            } else animator.SetBool("isRunningRight", false);
+            } else if (direction.y != 0){
+                if(transform.localScale.x > 0){
+                    animator.SetBool("isRunningRight", true);
+                } else animator.SetBool("isRunningRight", true);
+            } else {
+                animator.SetBool("isRunningRight", false);
+            }
 
         rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
     }
